@@ -47,6 +47,22 @@ while True:
             
             Draw.draw_landmarks(frame,handlm,mpHands.HAND_CONNECTIONS)
 
+        if landmarkList != []:
+            x1 , y1 = landmarkList[4][1], landmarkList[4][2] #xy coordinates of thumb
+
+            x2 , y2 = landmarkList[8][1], landmarkList[8][2] # xy coordinates of index
+
+            cv2.circle(frame,(x1,y1),7,(0,255,0),cv2.FILLED)
+            cv2.circle(frame,(x2,y2),7,(0,255,0),cv2.FILLED)
+
+            cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),3)  #draws a line from thumb to index
+
+            L = hypot(x2 - x1, y2 - y1) #calculates the hypotenous
+
+            b_level = np.interp(L,[15,220],[0,100]) #hand range 15-220 brightness ranges from 0-100
+
+            sbc.set_brightness(int(b_level)) #adjusts brightness
+
     cv2.imshow('Image', frame)
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
