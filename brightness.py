@@ -32,6 +32,21 @@ while True:
     #process the image
     Process = hands.process(frameRGB)
 
+    landmarkList = []
+
+    #to check if hands are in frame
+    if Process.multi_hand_landmarks:
+        for handlm in Process.multi_hand_landmarks:
+            for _id,landmarks in enumerate(handlm.landmark):
+
+                height,width,color = frame.shape
+
+
+                x,y = int(landmarks.x*width), int(landmarks.y*height)
+                landmarkList.append([_id,x,y])
+            
+            Draw.draw_landmarks(frame,handlm,mpHands.HAND_CONNECTIONS)
+
     cv2.imshow('Image', frame)
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
