@@ -17,16 +17,21 @@ hands = mpHands.Hands(
 
 Draw = mp.solutions.drawing_utils
 
-#starts the camera 
-
 cap = cv2.VideoCapture(0)
 
-#reads video frame by frame 
-_,frame = cap.read()
-    
-#Flip image 
-frame=cv2.flip(frame,1)
 while True: 
+    # Reads the video 
+    _,frame = cap.read()
+
+    #FLips images
+    frame = cv2.flip(frame,1)
+
+    #convert to rgb
+    frameRGB = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+
+    #process the image
+    Process = hands.process(frameRGB)
+
     cv2.imshow('Image', frame)
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
